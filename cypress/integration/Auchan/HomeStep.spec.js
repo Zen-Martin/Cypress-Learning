@@ -4,7 +4,6 @@ import homepage from "../pages/HomePage";
 
 
 Given("I am on the homePage", () => {
-    //cy.viewport(1280,720);
     homepage.goToHomepage();
 });
 
@@ -18,4 +17,16 @@ When("Click on *voir tous les produits*", () => {
  
 Then("A page displaying a message that the page is no longer available", () => {
     homepage.verifyRedirection();
+});
+
+When("Scroll down to *A propos d'auchan* then click", () => {
+    homepage.scrollToAboutAuchan();
+});
+ 
+When("Click on *espace presse*", () => {
+    homepage.clickOnSpacePress();
+});
+ 
+Then("The link redirects to an address that cannot be found", () => {
+    homepage.verifySpacePressLink();
 });
