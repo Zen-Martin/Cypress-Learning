@@ -12,15 +12,21 @@ const aboutAuchan = "div > section:nth-child(1) > button > span.collapsible__tex
 
 const spacePress = "div > section.collapsible.footer-links__collapsible.active > main > a:nth-child(3)";
 
+const copyRight = "div > div:nth-child(2) > div.footer-legal__copyright";
+
 const config = require("../../fixtures/config.json");
 
 const device = require("../../fixtures/device.json");
+
+const currentDate = new Date();
 
 class HomePage{
 
 goToHomepage(){
     cy.viewport(device.desktop.width,device.desktop.height);
     cy.visit(config.env_URL);
+
+    cy.wait(1000);
 
     cy.get(cookieOption).should("be.visible")
     .click();
@@ -37,7 +43,10 @@ clickOnAffiate(){
 }
 
 clickOnAllProductView(){
-    cy.get(seeAllProduct).click();
+    cy.wait(1000);
+    cy.get(seeAllProduct)
+    .should("be.visible")
+    .click();
 }
 
 scrollToAboutAuchan(){
@@ -47,25 +56,37 @@ scrollToAboutAuchan(){
 }
 
 clickOnSpacePress(){
-    cy.get(spacePress).should("be.visible")
-    .click({force: true});
+    cy.get(spacePress)
+    .should("be.visible");
 }
 
 verifyRedirection(){
-    cy.title().should('eq', 'Mes courses du quotidien pas cher à prix Auchan');
+    cy.wait(1000);
+    cy.title()
+    .should('eq', 'Mes courses du quotidien pas cher à prix Auchan');
 }
 
 verifySpacePressLink(){
     cy.get(spacePress)
+    .should("be.visible")
     .invoke('attr', 'href')
-    .then(href => { cy.request(href)
-        .its('status')
-        .should('eq', 200);
-  });
+    .request(href)
+    .should((response) => {
+        expect(response.status).to.eq(200);
+      });
+}
+
+scrollToFooter(){
+    cy.get(copyRight)
+    .scrollIntoView({easing: 'linear'});
+}
+
+verifyCopyright(){
+    cy.get(copyRight)
+    .should("contain.text",currentDate.getFullYear()+"");
 }
 
 }
-
 
 const homepage = new HomePage();
 

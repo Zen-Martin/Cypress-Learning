@@ -16,3 +16,9 @@ Feature: Re-Test Cases for Auchan Website without account Access
     When Scroll down to *A propos d'auchan* then click
     And Click on *espace presse*
     Then The link redirects to an address that cannot be found
+
+  @severity=minor
+  @recommandation_1212
+  Scenario: Update copyright
+    When Scroll to footer
+    Then The footer copyright is out dated
